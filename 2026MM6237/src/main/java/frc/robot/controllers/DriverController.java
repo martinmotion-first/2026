@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.FaceDirectionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrainOld;
 
 public class DriverController {
@@ -51,6 +52,19 @@ public class DriverController {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             defaultDrivetrainCommand
-        );  
+        );
+
+        // Map face buttons to face specific directions
+        // Y button: Face forward (toward red alliance wall)
+        driverController.y().whileTrue(new FaceDirectionCommand(drivetrain, "forward"));
+        
+        // X button: Face left wall
+        driverController.x().whileTrue(new FaceDirectionCommand(drivetrain, "left"));
+        
+        // B button: Face right wall
+        driverController.b().whileTrue(new FaceDirectionCommand(drivetrain, "right"));
+        
+        // A button: Face operator/backward (toward blue alliance wall)
+        driverController.a().whileTrue(new FaceDirectionCommand(drivetrain, "operator"));
     }
 }
