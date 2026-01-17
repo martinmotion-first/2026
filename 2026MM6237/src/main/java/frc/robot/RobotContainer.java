@@ -7,9 +7,11 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.controllers.DriverController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrainOld;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -19,6 +21,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,12 +38,22 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
+
+    private final CommandXboxController driver = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
+    // private final CommandXboxController operator = new CommandXboxController(Constants.OperatorConstants.kOperatorControllerPort);
+
     public final CommandSwerveDrivetrainOld drivetrain = TunerConstants.createDrivetrain();
       // private final SendableChooser<Command> autoChooser;
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+    private static final SwerveRequest.FieldCentric tempDrive = new SwerveRequest.FieldCentric()
+      .withDeadband(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)).withRotationalDeadband(RotationsPerSecond.of(0.5).in(RadiansPerSecond))
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+
+    private final LimelightSubsystem limelight = new LimelightSubsystem();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -50,10 +63,6 @@ public class RobotContainer {
     }
 
 
-
-        private static final SwerveRequest.FieldCentric tempDrive = new SwerveRequest.FieldCentric()
-            .withDeadband(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)).withRotationalDeadband(RotationsPerSecond.of(0.5).in(RadiansPerSecond))
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
      * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -64,23 +73,22 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-      // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-      new Trigger(m_exampleSubsystem::exampleCondition)
-          .onTrue(new ExampleCommand(m_exampleSubsystem));
+      // DriverMapping6237MR.mapXboxController(driver, drivetrain, NetworkTableInstance.getDefault().getTable("limelight"));
+      DriverController.mapXboxController(driver, drivetrain, null);
 
       // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
       // cancelling on release.
 
-        Command defaultDrivetrainCommand = drivetrain.applyRequest(() ->
-            tempDrive.withVelocityX(m_driverController.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)) 
-                .withVelocityY(m_driverController.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)) 
-                .withRotationalRate(-1 * m_driverController.getRightX() * RotationsPerSecond.of(0.5).in(RadiansPerSecond))
-        ); 
+        // Command defaultDrivetrainCommand = drivetrain.applyRequest(() ->
+        //     tempDrive.withVelocityX(m_driverController.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)) 
+        //         .withVelocityY(m_driverController.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)) 
+        //         .withRotationalRate(-1 * m_driverController.getRightX() * RotationsPerSecond.of(0.5).in(RadiansPerSecond))
+        // ); 
 
-        drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            defaultDrivetrainCommand
-        );
+        // drivetrain.setDefaultCommand(
+        //     // Drivetrain will execute this command periodically
+        //     defaultDrivetrainCommand
+        // );
     }
 
     /**
