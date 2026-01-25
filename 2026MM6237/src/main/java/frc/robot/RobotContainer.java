@@ -24,6 +24,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -43,7 +44,7 @@ public class RobotContainer {
     // private final CommandXboxController operator = new CommandXboxController(Constants.OperatorConstants.kOperatorControllerPort);
 
     public final CommandSwerveDrivetrainOld drivetrain = TunerConstants.createDrivetrain();
-      // private final SendableChooser<Command> autoChooser;
+      private final SendableChooser<Command> autoChooser;
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -59,7 +60,8 @@ public class RobotContainer {
     public RobotContainer() {
       // Configure the trigger bindings
       configureBindings();
-      // autoChooser = AutoBuilder.buildAutoChooser("Auto Path 1");
+      autoChooser = AutoBuilder.buildAutoChooser("DefaultPath");
+      SmartDashboard.putData("Auto Mode", autoChooser);
     }
 
 
@@ -97,8 +99,8 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-      // return autoChooser.getSelected();
-      return new Command(){};
+      return autoChooser.getSelected();
+      // return new Command(){};
     }
 
     public void getSimPeriodic(Field2d field) {
