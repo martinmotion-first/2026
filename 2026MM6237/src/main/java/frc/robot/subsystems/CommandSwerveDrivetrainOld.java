@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
+import frc.robot.Constants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -39,7 +40,7 @@ import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
  * Subsystem so it can easily be used in command-based projects.
  */
 public class CommandSwerveDrivetrainOld extends TunerSwerveDrivetrain implements Subsystem {
-    private static final double kSimLoopPeriod = 0.005; // 5 ms
+    private static final double kSimLoopPeriod = Constants.CommandSwerveDrivetrainOld.kSimLoopPeriod; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
 
@@ -73,9 +74,9 @@ public class CommandSwerveDrivetrainOld extends TunerSwerveDrivetrain implements
                 ),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants(10, 0, 0),
+                    new PIDConstants(Constants.CommandSwerveDrivetrainOld.kTranslationPIDKP, Constants.CommandSwerveDrivetrainOld.kTranslationPIDKI, Constants.CommandSwerveDrivetrainOld.kTranslationPIDKD),
                     // PID constants for rotation
-                    new PIDConstants(7, 0, 0)
+                    new PIDConstants(Constants.CommandSwerveDrivetrainOld.kRotationPIDKP, Constants.CommandSwerveDrivetrainOld.kRotationPIDKI, Constants.CommandSwerveDrivetrainOld.kRotationPIDKD)
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
@@ -91,7 +92,7 @@ public class CommandSwerveDrivetrainOld extends TunerSwerveDrivetrain implements
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
         new SysIdRoutine.Config(
             null,        // Use default ramp rate (1 V/s)
-            Volts.of(4), // Reduce dynamic step voltage to 4 V to prevent brownout
+            Volts.of(Constants.CommandSwerveDrivetrainOld.kTranslationCharacterizationDynamicVoltage), // Reduce dynamic step voltage to 4 V to prevent brownout
             null,        // Use default timeout (10 s)
             // Log state with SignalLogger class
             state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())
@@ -111,7 +112,7 @@ public class CommandSwerveDrivetrainOld extends TunerSwerveDrivetrain implements
     private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
         new SysIdRoutine.Config(
             null,        // Use default ramp rate (1 V/s)
-            Volts.of(7), // Use dynamic voltage of 7 V
+            Volts.of(Constants.CommandSwerveDrivetrainOld.kSteerCharacterizationDynamicVoltage), // Use dynamic voltage of 7 V
             null,        // Use default timeout (10 s)
             // Log state with SignalLogger class
             state -> SignalLogger.writeString("SysIdSteer_State", state.toString())
@@ -131,9 +132,9 @@ public class CommandSwerveDrivetrainOld extends TunerSwerveDrivetrain implements
     private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(
         new SysIdRoutine.Config(
             /* This is in radians per second², but SysId only supports "volts per second" */
-            Volts.of(Math.PI / 6).per(Second),
+            Volts.of(Constants.CommandSwerveDrivetrainOld.kRotationCharacterizationRampRateVoltage).per(Second),
             /* This is in radians per second, but SysId only supports "volts" */
-            Volts.of(Math.PI),
+            Volts.of(Constants.CommandSwerveDrivetrainOld.kRotationCharacterizationDynamicVoltage),
             null, // Use default timeout (10 s)
             // Log state with SignalLogger class
             state -> SignalLogger.writeString("SysIdRotation_State", state.toString())

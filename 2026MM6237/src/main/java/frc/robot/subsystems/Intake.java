@@ -29,13 +29,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.KrakenX60;
 import frc.robot.Ports;
 
 public class Intake extends SubsystemBase {
     public enum Speed {
         STOP(0),
-        INTAKE(0.8);
+        INTAKE(Constants.Intake.kIntakePercentOutput);
 
         private final double percentOutput;
 
@@ -49,10 +50,10 @@ public class Intake extends SubsystemBase {
     }
 
     public enum Position {
-        HOMED(110),
-        STOWED(100),
-        INTAKE(-4),
-        AGITATE(20);
+        HOMED(Constants.Intake.kHomedPositionDegrees),
+        STOWED(Constants.Intake.kStowedPositionDegrees),
+        INTAKE(Constants.Intake.kIntakePositionDegrees),
+        AGITATE(Constants.Intake.kAgitatePositionDegrees);
 
         private final double degrees;
 
@@ -65,9 +66,9 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    private static final double kPivotReduction = 50.0;
+    private static final double kPivotReduction = Constants.Intake.kPivotReduction;
     private static final AngularVelocity kMaxPivotSpeed = KrakenX60.kFreeSpeed.div(kPivotReduction);
-    private static final Angle kPositionTolerance = Degrees.of(5);
+    private static final Angle kPositionTolerance = Constants.Intake.kPositionTolerance;
 
     private final TalonFX pivotMotor, rollerMotor;
     private final VoltageOut pivotVoltageRequest = new VoltageOut(0);
@@ -93,9 +94,9 @@ public class Intake extends SubsystemBase {
             )
             .withCurrentLimits(
                 new CurrentLimitsConfigs()
-                    .withStatorCurrentLimit(Amps.of(120))
+                    .withStatorCurrentLimit(Amps.of(Constants.Intake.kStatorCurrentLimit))
                     .withStatorCurrentLimitEnable(true)
-                    .withSupplyCurrentLimit(Amps.of(70))
+                    .withSupplyCurrentLimit(Amps.of(Constants.Intake.kSupplyCurrentLimit))
                     .withSupplyCurrentLimitEnable(true)
             )
             .withFeedback(
@@ -110,9 +111,9 @@ public class Intake extends SubsystemBase {
             )
             .withSlot0(
                 new Slot0Configs()
-                    .withKP(300)
-                    .withKI(0)
-                    .withKD(0)
+                    .withKP(Constants.Intake.kPivotKP)
+                    .withKI(Constants.Intake.kPivotKI)
+                    .withKD(Constants.Intake.kPivotKD)
                     .withKV(12.0 / kMaxPivotSpeed.in(RotationsPerSecond)) // 12 volts when requesting max RPS
             );
         pivotMotor.getConfigurator().apply(config);
@@ -127,9 +128,9 @@ public class Intake extends SubsystemBase {
             )
             .withCurrentLimits(
                 new CurrentLimitsConfigs()
-                    .withStatorCurrentLimit(Amps.of(120))
+                    .withStatorCurrentLimit(Amps.of(Constants.Intake.kStatorCurrentLimit))
                     .withStatorCurrentLimitEnable(true)
-                    .withSupplyCurrentLimit(Amps.of(70))
+                    .withSupplyCurrentLimit(Amps.of(Constants.Intake.kSupplyCurrentLimit))
                     .withSupplyCurrentLimitEnable(true)
             );
         rollerMotor.getConfigurator().apply(config);
@@ -191,8 +192,8 @@ public class Intake extends SubsystemBase {
 
     public Command homingCommand() {
         return Commands.sequence(
-            runOnce(() -> setPivotPercentOutput(0.1)),
-            Commands.waitUntil(() -> pivotMotor.getSupplyCurrent().getValue().in(Amps) > 6),
+            runOnce(() -> setPivotPercentOutput(Constants.Intake.kHomingPercentOutput)),
+            Commands.waitUntil(() -> pivotMotor.getSupplyCurrent().getValue().in(Amps) > Constants.Intake.kHomingCurrentThreshold),
             runOnce(() -> {
                 pivotMotor.setPosition(Position.HOMED.angle());
                 isHomed = true;

@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.PoseEstimate;
 
@@ -46,7 +47,7 @@ public class Limelight extends SubsystemBase {
             poseEstimate_MegaTag2.pose.getTranslation(),
             poseEstimate_MegaTag1.pose.getRotation()
         );
-        final Matrix<N3, N1> standardDeviations = VecBuilder.fill(0.1, 0.1, 10.0);
+        final Matrix<N3, N1> standardDeviations = VecBuilder.fill(Constants.Limelight.kStandardDeviationX, Constants.Limelight.kStandardDeviationY, Constants.Limelight.kStandardDeviationTheta);
 
         posePublisher.set(poseEstimate_MegaTag2.pose);
 

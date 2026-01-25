@@ -24,11 +24,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.KrakenX60;
 import frc.robot.Ports;
 
 public class Shooter extends SubsystemBase {
-    private static final AngularVelocity kVelocityTolerance = RPM.of(100);
+    private static final AngularVelocity kVelocityTolerance = Constants.Shooter.kVelocityTolerance;
 
     private final TalonFX leftMotor, middleMotor, rightMotor;
     private final List<TalonFX> motors;
@@ -59,20 +60,20 @@ public class Shooter extends SubsystemBase {
             )
             .withVoltage(
                 new VoltageConfigs()
-                    .withPeakReverseVoltage(Volts.of(0))
+                    .withPeakReverseVoltage(Volts.of(Constants.Shooter.kPeakReverseVoltage))
             )
             .withCurrentLimits(
                 new CurrentLimitsConfigs()
-                    .withStatorCurrentLimit(Amps.of(120))
+                    .withStatorCurrentLimit(Amps.of(Constants.Shooter.kStatorCurrentLimit))
                     .withStatorCurrentLimitEnable(true)
-                    .withSupplyCurrentLimit(Amps.of(70))
+                    .withSupplyCurrentLimit(Amps.of(Constants.Shooter.kSupplyCurrentLimit))
                     .withSupplyCurrentLimitEnable(true)
             )
             .withSlot0(
                 new Slot0Configs()
-                    .withKP(0.5)
-                    .withKI(2)
-                    .withKD(0)
+                    .withKP(Constants.Shooter.kLeftKP)
+                    .withKI(Constants.Shooter.kKI)
+                    .withKD(Constants.Shooter.kKD)
                     .withKV(12.0 / KrakenX60.kFreeSpeed.in(RotationsPerSecond)) // 12 volts when requesting max RPS
             );
         

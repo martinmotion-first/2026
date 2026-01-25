@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
@@ -29,16 +30,16 @@ public class Swerve extends TunerSwerveDrivetrain implements Subsystem {
 
     /** Swerve request to apply during field-centric path following */
     private final SwerveRequest.ApplyFieldSpeeds pathFieldSpeedsRequest = new SwerveRequest.ApplyFieldSpeeds();
-    private final PIDController pathXController = new PIDController(10, 0, 0);
-    private final PIDController pathYController = new PIDController(10, 0, 0);
-    private final PIDController pathThetaController = new PIDController(7, 0, 0);
+    private final PIDController pathXController = new PIDController(Constants.Swerve.kPathXControllerKP, Constants.Swerve.kPathXControllerKI, Constants.Swerve.kPathXControllerKD);
+    private final PIDController pathYController = new PIDController(Constants.Swerve.kPathYControllerKP, Constants.Swerve.kPathYControllerKI, Constants.Swerve.kPathYControllerKD);
+    private final PIDController pathThetaController = new PIDController(Constants.Swerve.kPathThetaControllerKP, Constants.Swerve.kPathThetaControllerKI, Constants.Swerve.kPathThetaControllerKD);
 
     public Swerve() {
         super(
             TunerConstants.DrivetrainConstants, 
             0,
-            VecBuilder.fill(0.1, 0.1, 0.1),
-            VecBuilder.fill(0.1, 0.1, 0.1),
+            VecBuilder.fill(Constants.Swerve.kOdometryStandardDeviationX, Constants.Swerve.kOdometryStandardDeviationY, Constants.Swerve.kOdometryStandardDeviationTheta),
+            VecBuilder.fill(Constants.Swerve.kVisionStandardDeviationX, Constants.Swerve.kVisionStandardDeviationY, Constants.Swerve.kVisionStandardDeviationTheta),
             TunerConstants.FrontLeft, 
             TunerConstants.FrontRight, 
             TunerConstants.BackLeft, 

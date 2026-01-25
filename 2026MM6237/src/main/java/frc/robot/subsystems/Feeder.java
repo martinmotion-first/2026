@@ -20,12 +20,13 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.KrakenX60;
 import frc.robot.Ports;
 
 public class Feeder extends SubsystemBase {
     public enum Speed {
-        FEED(5000);
+        FEED(Constants.Feeder.kFeedRPM);
 
         private final double rpm;
 
@@ -53,17 +54,17 @@ public class Feeder extends SubsystemBase {
             )
             .withCurrentLimits(
                 new CurrentLimitsConfigs()
-                    .withStatorCurrentLimit(Amps.of(120))
+                    .withStatorCurrentLimit(Amps.of(Constants.Feeder.kStatorCurrentLimit))
                     .withStatorCurrentLimitEnable(true)
-                    .withSupplyCurrentLimit(Amps.of(50))
+                    .withSupplyCurrentLimit(Amps.of(Constants.Feeder.kSupplyCurrentLimit))
                     .withSupplyCurrentLimitEnable(true)
             )
             .withSlot0(
                 new Slot0Configs()
-                    .withKP(1)
-                    .withKI(0)
-                    .withKD(0)
-                    .withKV(12.0 / KrakenX60.kFreeSpeed.in(RotationsPerSecond)) // 12 volts when requesting max RPS
+                    .withKP(Constants.Feeder.kP)
+                    .withKI(Constants.Feeder.kI)
+                    .withKD(Constants.Feeder.kD)
+                    .withKV(Constants.Feeder.kVoltageAtMaxSpeed / KrakenX60.kFreeSpeed.in(RotationsPerSecond)) // 12 volts when requesting max RPS
             );
         
         motor.getConfigurator().apply(config);

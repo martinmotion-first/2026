@@ -17,12 +17,13 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Ports;
 
 public class Floor extends SubsystemBase {
     public enum Speed {
         STOP(0),
-        FEED(0.83);
+        FEED(Constants.Floor.kFeedPercentOutput);
 
         private final double percentOutput;
 
@@ -31,7 +32,7 @@ public class Floor extends SubsystemBase {
         }
 
         public Voltage voltage() {
-            return Volts.of(percentOutput * 12.0);
+            return Volts.of(percentOutput * Constants.Floor.kVoltageMultiplier);
         }
     }
 
@@ -49,9 +50,9 @@ public class Floor extends SubsystemBase {
             )
             .withCurrentLimits(
                 new CurrentLimitsConfigs()
-                    .withStatorCurrentLimit(Amps.of(120))
+                    .withStatorCurrentLimit(Amps.of(Constants.Floor.kStatorCurrentLimit))
                     .withStatorCurrentLimitEnable(true)
-                    .withSupplyCurrentLimit(Amps.of(30))
+                    .withSupplyCurrentLimit(Amps.of(Constants.Floor.kSupplyCurrentLimit))
                     .withSupplyCurrentLimitEnable(true)
             );
 
