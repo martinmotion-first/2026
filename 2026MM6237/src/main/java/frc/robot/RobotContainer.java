@@ -11,7 +11,7 @@ import frc.robot.controllers.DriverController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrainOld;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.LimelightSubsystem6237;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -54,7 +54,7 @@ public class RobotContainer {
       .withDeadband(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)).withRotationalDeadband(RotationsPerSecond.of(0.5).in(RadiansPerSecond))
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
-    private final LimelightSubsystem limelight = new LimelightSubsystem();
+    private final LimelightSubsystem6237 limelight = new LimelightSubsystem6237();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {

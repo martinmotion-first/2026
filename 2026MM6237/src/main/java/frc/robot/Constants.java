@@ -4,6 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.LinearVelocity;
+import frc.robot.generated.TunerConstants;
+
+import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -25,5 +32,15 @@ public final class Constants {
   public static class TempSwerve {
     public static final double MaxSpeed = 2.0; // meters per second
     public static final double MaxAngularRate = 2 * Math.PI; // radians per second
-  } 
+  }
+  
+    public static class Driving {
+      public static final LinearVelocity kMaxSpeed = TunerConstants.kSpeedAt12Volts;
+      public static final AngularVelocity kMaxRotationalRate = RotationsPerSecond.of(1);
+      public static final AngularVelocity kPIDRotationDeadband = kMaxRotationalRate.times(0.005);
+    }
+
+    public static class KrakenX60 {
+        public static final AngularVelocity kFreeSpeed = RPM.of(6000);
+    }
 }
