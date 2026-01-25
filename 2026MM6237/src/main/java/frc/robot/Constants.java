@@ -15,5 +15,15 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
+
+    public static final double kTriggerButtonThreshold = 0.3;
+    public static final double driverStickDeadband = 0.2;
+    public static final double operatorStickDeadband = 0.2;
   }
+
+  public static class TempSwerve {
+    public static final double MaxSpeed = 2.0; // meters per second
+    public static final double MaxAngularRate = 2 * Math.PI; // radians per second
+  } 
 }
