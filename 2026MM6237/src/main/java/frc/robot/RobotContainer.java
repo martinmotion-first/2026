@@ -41,7 +41,7 @@ public class RobotContainer {
     // private final CommandXboxController operator = new CommandXboxController(Constants.OperatorConstants.kOperatorControllerPort);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-      // private final SendableChooser<Command> autoChooser;
+      private final SendableChooser<Command> autoChooser;
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -55,10 +55,13 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+      // Configure AutoBuilder before building the auto chooser
+      drivetrain.configureAutoBuilder();
+      
       // Configure the trigger bindings
       configureBindings();
-      // autoChooser = AutoBuilder.buildAutoChooser("DefaultPath");
-      // SmartDashboard.putData("Auto Mode", autoChooser);
+      autoChooser = AutoBuilder.buildAutoChooser("DefaultAuto");
+      SmartDashboard.putData("Auto Mode", autoChooser);
     }
 
 
@@ -96,8 +99,8 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-      // return autoChooser.getSelected();
-      return new Command(){};
+      return autoChooser.getSelected();
+      // return new Command(){};
     }
 
     public void getSimPeriodic(Field2d field) {
