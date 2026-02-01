@@ -4,25 +4,18 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.controllers.DriverController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -34,29 +27,25 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
 
     private final CommandXboxController driver = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
     // private final CommandXboxController operator = new CommandXboxController(Constants.OperatorConstants.kOperatorControllerPort);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-      private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser;
 
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController m_driverController =
-        new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
-    private static final SwerveRequest.FieldCentric tempDrive = new SwerveRequest.FieldCentric()
-      .withDeadband(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)).withRotationalDeadband(RotationsPerSecond.of(0.5).in(RadiansPerSecond))
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-
-    // private final LimelightSubsystem limelight = new LimelightSubsystem();
+    private final LimelightSubsystem limelight = new LimelightSubsystem();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
       // Configure AutoBuilder before building the auto chooser
       drivetrain.configureAutoBuilder();
+      
+      // Set Limelight subsystem to always update (default command that does nothing but requires the subsystem)
+      limelight.setDefaultCommand(
+        Commands.runEnd(() -> {}, () -> {}, limelight)
+          .withName("LimelightIdle")
+      );
       
       // Configure the trigger bindings
       configureBindings();
@@ -76,7 +65,7 @@ public class RobotContainer {
      */
     private void configureBindings() {
       // DriverMapping6237MR.mapXboxController(driver, drivetrain, NetworkTableInstance.getDefault().getTable("limelight"));
-      DriverController.mapXboxController(driver, drivetrain, null);
+      DriverController.mapXboxController(driver, drivetrain, limelight);
 
       // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
       // cancelling on release.

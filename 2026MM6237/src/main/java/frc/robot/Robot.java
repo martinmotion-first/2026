@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,10 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   public Robot() {
+    // Configure NetworkTables to connect to the Limelight via IP address
+    // This allows the simulator to reach the Limelight on the 169.254.x.x network - comment at MM 
+    NetworkTableInstance.getDefault().setServer("169.254.153.124");
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -104,5 +109,6 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {
         m_robotContainer.getSimPeriodic(m_field);
+        SmartDashboard.updateValues();
   }
 }

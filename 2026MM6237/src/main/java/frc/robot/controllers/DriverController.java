@@ -11,6 +11,10 @@ import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.FaceDirectionCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.commands.TestLimelightCommand;
+import frc.robot.commands.AlignToAprilTagCommand;
+import frc.robot.commands.QuickTestLimelightCommand;
 
 public class DriverController {
     
@@ -30,7 +34,7 @@ public class DriverController {
         .withDeadband(Constants.TempSwerve.MaxSpeed * OperatorConstants.driverStickDeadband).withRotationalDeadband(Constants.TempSwerve.MaxAngularRate * Constants.OperatorConstants.driverStickDeadband)
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    public static void mapXboxController(CommandXboxController driverController, CommandSwerveDrivetrain drivetrain, NetworkTable limelight) {
+    public static void mapXboxController(CommandXboxController driverController, CommandSwerveDrivetrain drivetrain, LimelightSubsystem limelight) {
         robotCentricControl = new Trigger(() -> driverController.getLeftTriggerAxis() > Constants.OperatorConstants.kTriggerButtonThreshold);
 
         Command defaultDrivetrainCommand = drivetrain.applyRequest(() -> {
@@ -54,17 +58,25 @@ public class DriverController {
             defaultDrivetrainCommand
         );
 
-        // Map face buttons to face specific directions
-        // Y button: Face forward (toward red alliance wall)
-        driverController.y().whileTrue(new FaceDirectionCommand(drivetrain, "forward"));
+        // // Map face buttons to face specific directions
+        // // Y button: Face forward (toward red alliance wall)
+        // driverController.y().whileTrue(new FaceDirectionCommand(drivetrain, "forward"));
         
-        // X button: Face left wall
-        driverController.x().whileTrue(new FaceDirectionCommand(drivetrain, "left"));
+        // // X button: Face left wall
+        // driverController.x().whileTrue(new FaceDirectionCommand(drivetrain, "left"));
         
-        // B button: Face right wall
-        driverController.b().whileTrue(new FaceDirectionCommand(drivetrain, "right"));
+        // // B button: Face right wall
+        // driverController.b().whileTrue(new FaceDirectionCommand(drivetrain, "right"));
         
-        // A button: Face operator/backward (toward blue alliance wall)
-        driverController.a().whileTrue(new FaceDirectionCommand(drivetrain, "operator"));
+        // // A button: Face operator/backward (toward blue alliance wall)
+        // driverController.a().whileTrue(new FaceDirectionCommand(drivetrain, "operator"));
+
+        driverController.a().onTrue(new TestLimelightCommand(limelight));
+        driverController.x().onTrue(new QuickTestLimelightCommand(limelight));
+
+        // Actual alignment (main feature!)
+        driverController.b().onTrue(
+            new AlignToAprilTagCommand(limelight, 2, 1.5, 0)
+        );
     }
 }
