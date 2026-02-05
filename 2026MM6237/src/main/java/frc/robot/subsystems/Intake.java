@@ -204,6 +204,28 @@ public class Intake extends SubsystemBase {
         .withInterruptBehavior(InterruptionBehavior.kCancelIncoming);
     }
 
+    // ======================== GETTER METHODS FOR TUNING ========================
+
+    public double getPivotAngleDegrees() {
+        return pivotMotor.getPosition().getValue().in(Degrees);
+    }
+
+    public double getRollerRPM() {
+        return rollerMotor.getVelocity().getValue().in(RPM);
+    }
+
+    public double getPivotStatorCurrent() {
+        return pivotMotor.getStatorCurrent().getValue().in(Amps);
+    }
+
+    public double getRollerStatorCurrent() {
+        return rollerMotor.getStatorCurrent().getValue().in(Amps);
+    }
+
+    public boolean isHomed() {
+        return isHomed;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addStringProperty("Command", () -> getCurrentCommand() != null ? getCurrentCommand().getName() : "null", null);

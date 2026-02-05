@@ -132,6 +132,16 @@ public class Hanger extends SubsystemBase {
         return isHomed;
     }
 
+    // ======================== GETTER METHODS FOR TUNING ========================
+
+    public double getCurrentExtensionInches() {
+        return motorAngleToExtension(motor.getPosition().getValue()).in(Inches);
+    }
+
+    public double getSupplyCurrent() {
+        return motor.getSupplyCurrent().getValue().in(Amps);
+    }
+
     private boolean isExtensionWithinTolerance() {
         final Distance currentExtension = motorAngleToExtension(motor.getPosition().getValue());
         final Distance targetExtension = motorAngleToExtension(motionMagicRequest.getPositionMeasure());

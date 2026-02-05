@@ -89,6 +89,20 @@ public class Feeder extends SubsystemBase {
         return startEnd(() -> set(Speed.FEED), () -> setPercentOutput(0));
     }
 
+    // ======================== GETTER METHODS FOR TUNING ========================
+
+    public double getCurrentRPM() {
+        return motor.getVelocity().getValue().in(RPM);
+    }
+
+    public double getStatorCurrent() {
+        return motor.getStatorCurrent().getValue().in(Amps);
+    }
+
+    public double getSupplyCurrent() {
+        return motor.getSupplyCurrent().getValue().in(Amps);
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addStringProperty("Command", () -> getCurrentCommand() != null ? getCurrentCommand().getName() : "null", null);

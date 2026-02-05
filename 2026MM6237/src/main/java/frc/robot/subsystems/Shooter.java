@@ -120,6 +120,32 @@ public class Shooter extends SubsystemBase {
         });
     }
 
+    // ======================== GETTER METHODS FOR TUNING ========================
+
+    public double getLeftMotorRPM() {
+        return leftMotor.getVelocity().getValue().in(RPM);
+    }
+
+    public double getMiddleMotorRPM() {
+        return middleMotor.getVelocity().getValue().in(RPM);
+    }
+
+    public double getRightMotorRPM() {
+        return rightMotor.getVelocity().getValue().in(RPM);
+    }
+
+    public double getLeftStatorCurrent() {
+        return leftMotor.getStatorCurrent().getValue().in(Amps);
+    }
+
+    public double getMiddleStatorCurrent() {
+        return middleMotor.getStatorCurrent().getValue().in(Amps);
+    }
+
+    public double getRightStatorCurrent() {
+        return rightMotor.getStatorCurrent().getValue().in(Amps);
+    }
+
     private void initSendable(SendableBuilder builder, TalonFX motor, String name) {
         builder.addDoubleProperty(name + " RPM", () -> motor.getVelocity().getValue().in(RPM), null);
         builder.addDoubleProperty(name + " Stator Current", () -> motor.getStatorCurrent().getValue().in(Amps), null);

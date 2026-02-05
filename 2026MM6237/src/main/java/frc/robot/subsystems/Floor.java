@@ -71,6 +71,20 @@ public class Floor extends SubsystemBase {
         return startEnd(() -> set(Speed.FEED), () -> set(Speed.STOP));
     }
 
+    // ======================== GETTER METHODS FOR TUNING ========================
+
+    public double getCurrentRPM() {
+        return motor.getVelocity().getValue().in(RPM);
+    }
+
+    public double getStatorCurrent() {
+        return motor.getStatorCurrent().getValue().in(Amps);
+    }
+
+    public double getSupplyCurrent() {
+        return motor.getSupplyCurrent().getValue().in(Amps);
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addStringProperty("Command", () -> getCurrentCommand() != null ? getCurrentCommand().getName() : "null", null);

@@ -61,6 +61,16 @@ public class Hood extends SubsystemBase {
         return MathUtil.isNear(targetPosition, currentPosition, kPositionTolerance);
     }
 
+    // ======================== GETTER METHODS FOR TUNING ========================
+
+    public double getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public double getTargetPosition() {
+        return targetPosition;
+    }
+
     private void updateCurrentPosition() {
         final Time currentTime = Seconds.of(Timer.getFPGATimestamp());
         final Time elapsedTime = currentTime.minus(lastUpdateTime);

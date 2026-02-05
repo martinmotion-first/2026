@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.controllers.DriverController;
 import frc.robot.controllers.OperatorController;
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.SubsystemTuning;
 import frc.robot.subsystems.CommandSwerveDrivetrainOld;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Feeder;
@@ -76,6 +77,9 @@ public class RobotContainer {
       configureBindings();
       autoChooser = AutoBuilder.buildAutoChooser("DefaultPath");
       SmartDashboard.putData("Auto Mode", autoChooser);
+      
+      // Initialize subsystem tuning displays
+      SubsystemTuning.initializeAllDashboards();
     }
 
 
@@ -119,5 +123,31 @@ public class RobotContainer {
 
     public void getSimPeriodic(Field2d field) {
       field.setRobotPose(drivetrain.getState().Pose);
+    }
+
+    // ======================== SUBSYSTEM GETTERS ========================
+
+    public Feeder getFeeder() {
+      return feeder;
+    }
+
+    public Shooter getShooter() {
+      return shooter;
+    }
+
+    public Intake getIntake() {
+      return intake;
+    }
+
+    public Hood getHood() {
+      return hood;
+    }
+
+    public Hanger getHanger() {
+      return hanger;
+    }
+
+    public Floor getFloor() {
+      return floor;
     }
 }
