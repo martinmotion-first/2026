@@ -6,10 +6,18 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.controllers.DriverController;
+import frc.robot.controllers.OperatorController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrainOld;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Feeder;
+import frc.robot.subsystems.Floor;
+import frc.robot.subsystems.Hanger;
+import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LimelightSubsystem6237;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Swerve;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -37,9 +45,17 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
+    private final Swerve swerve = new Swerve();
+    private final Intake intake = new Intake();
+    private final Floor floor = new Floor();
+    private final Feeder feeder = new Feeder();
+    private final Shooter shooter = new Shooter();
+    private final Hood hood = new Hood();
+    private final Hanger hanger = new Hanger();
 
     private final CommandXboxController driver = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
     // private final CommandXboxController operator = new CommandXboxController(Constants.OperatorConstants.kOperatorControllerPort);
+    private final CommandXboxController operator =new CommandXboxController(Constants.OperatorConstants.kOperatorControllerPort);
 
     public final CommandSwerveDrivetrainOld drivetrain = TunerConstants.createDrivetrain();
       private final SendableChooser<Command> autoChooser;
@@ -75,7 +91,7 @@ public class RobotContainer {
     private void configureBindings() {
       // DriverMapping6237MR.mapXboxController(driver, drivetrain, NetworkTableInstance.getDefault().getTable("limelight"));
       DriverController.mapXboxController(driver, drivetrain, null);
-
+      OperatorController.mapXboxController(operator, feeder, shooter, intake, hood, hanger, floor);
       // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
       // cancelling on release.
 
