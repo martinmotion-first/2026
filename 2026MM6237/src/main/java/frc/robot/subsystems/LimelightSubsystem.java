@@ -26,9 +26,13 @@ public class LimelightSubsystem implements Subsystem {
 
     private void updateDashboard() {
         LimelightHelpers.LimelightResults results = LimelightHelpers.getLatestResults(limelightName);
+        
+        // "Connected" means the Limelight is responding (has valid results)
         SmartDashboard.putBoolean("Limelight/Connected", results.valid);
-        SmartDashboard.putNumber("Limelight/Fiducials Detected", 
-            results.targets_Fiducials != null ? results.targets_Fiducials.length : 0);
+        
+        // "Has Target" means we detected at least one AprilTag fiducial
+        boolean hasTarget = results.targets_Fiducials != null && results.targets_Fiducials.length > 0;
+        SmartDashboard.putBoolean("Limelight/Has Target", hasTarget);
     }
 
     public boolean hasValidTarget() {
@@ -94,15 +98,21 @@ public class LimelightSubsystem implements Subsystem {
         if (pose == null) {
             return -1;
         }
-        return Math.sqrt(pose.getX() * pose.getX() + pose.getY() * pose.getY());
+        // Z is the forward/backward distance from the tag (negative = away from tag)
+        // Take absolute value to get actual distance
+        return Math.abs(pose.getZ());
     }
 
     public double getAngleToTag(int tagId) {
-        Pose3d pose = getRobotPoseRelativeToTag(tagId);
-        if (pose == null) {
-            return 0;
+        // Return the horizontal offset angle (tx) in radians
+        // tx is the angle in degrees from the crosshair to the target
+        // Positive = tag to the right, Negative = tag to the left, 0 = centered
+        for (LimelightTarget_Fiducial fiducial : getDetectedFiducials()) {
+            if ((int)fiducial.fiducialID == tagId) {
+                return Math.toRadians(fiducial.tx);
+            }
         }
-        return Math.atan2(pose.getY(), pose.getX());
+        return 0;
     }
 
     public AlignmentError calculateAlignmentError(int tagId, double desiredDistance, double desiredAngle) {

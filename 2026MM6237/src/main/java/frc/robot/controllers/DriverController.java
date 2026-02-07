@@ -15,6 +15,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.commands.TestLimelightCommand;
 import frc.robot.commands.AlignToAprilTagCommand;
 import frc.robot.commands.QuickTestLimelightCommand;
+import frc.robot.commands.DriveToAprilTagCommand;
 
 public class DriverController {
     
@@ -74,9 +75,9 @@ public class DriverController {
         driverController.a().onTrue(new TestLimelightCommand(limelight));
         driverController.x().onTrue(new QuickTestLimelightCommand(limelight));
 
-        // Actual alignment (main feature!)
+        // Actual alignment (main feature!) - drive to the tag
         driverController.b().onTrue(
-            new AlignToAprilTagCommand(limelight, 2, 1.5, 0)
+            new DriveToAprilTagCommand(drivetrain, limelight, 32, 0.61, 0)
         );
     }
 }

@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,8 +32,8 @@ public class AlignToAprilTagCommand extends Command {
     private final double angleTolerance;        // radians
 
     // PID-like gains (tunable)
-    private double kPDistance = 0.5;      // Speed per meter of distance error
-    private double kPAngle = 0.3;         // Angular speed per radian of angle error
+    private double kPDistance = 2.0;      // Speed per meter of distance error (2.0 for 2m error = 1.0 m/s max)
+    private double kPAngle = 0.8;         // Angular speed per radian of angle error
 
     private ChassisSpeeds lastCalculatedSpeeds = new ChassisSpeeds(0, 0, 0);
 
@@ -90,9 +91,7 @@ public class AlignToAprilTagCommand extends Command {
 
     @Override
     public void initialize() {
-        System.out.println("AlignToAprilTag: Starting alignment to tag " + targetTagId);
-        System.out.println("  Desired distance: " + String.format("%.2f m", desiredDistance));
-        System.out.println("  Desired angle: " + String.format("%.1f°", Math.toDegrees(desiredAngle)));
+        // Initialization complete - rely on SmartDashboard for diagnostics
     }
 
     @Override
@@ -100,42 +99,65 @@ public class AlignToAprilTagCommand extends Command {
         // Check if the target tag is visible
         if (!limelight.isTagVisible(targetTagId)) {
             lastCalculatedSpeeds = new ChassisSpeeds(0, 0, 0);
-            SmartDashboard.putBoolean("Alignment/Tag Visible", false);
+            SmartDashboard.putBoolean("Limelight/Align/Tag Visible", false);
             return;
         }
 
-        SmartDashboard.putBoolean("Alignment/Tag Visible", true);
+        SmartDashboard.putBoolean("Limelight/Align/Tag Visible", true);
 
         // Get current pose relative to tag
         double currentDistance = limelight.getHorizontalDistanceToTag(targetTagId);
         double currentAngle = limelight.getAngleToTag(targetTagId);
+        
+        // Debug: Check the actual 3D pose to understand distance calculation
+        Pose3d pose = limelight.getRobotPoseRelativeToTag(targetTagId);
+        double poseX = (pose != null) ? pose.getX() : 0;
+        double poseY = (pose != null) ? pose.getY() : 0;
+        double poseZ = (pose != null) ? pose.getZ() : 0;
+        SmartDashboard.putNumber("Limelight/Debug/Pose X", poseX);
+        SmartDashboard.putNumber("Limelight/Debug/Pose Y", poseY);
+        SmartDashboard.putNumber("Limelight/Debug/Pose Z", poseZ);
+        SmartDashboard.putNumber("Limelight/Debug/Raw Distance", currentDistance);
 
         // Calculate errors
-        double distanceError = currentDistance - desiredDistance;  // positive = too close
+        // Positive error = too far (need to move forward), Negative error = too close (need to move backward)
+        double distanceError = desiredDistance - currentDistance;
         double angleError = normalizeAngle(currentAngle - desiredAngle);
 
         // Update dashboard with error values
-        SmartDashboard.putNumber("Alignment/Distance Error (m)", distanceError);
-        SmartDashboard.putNumber("Alignment/Angle Error (deg)", Math.toDegrees(angleError));
-        SmartDashboard.putNumber("Alignment/Current Distance (m)", currentDistance);
-        SmartDashboard.putNumber("Alignment/Current Angle (deg)", Math.toDegrees(currentAngle));
+        SmartDashboard.putNumber("Limelight/Align/Desired Distance (m)", desiredDistance);
+        SmartDashboard.putNumber("Limelight/Align/Current Distance (m)", currentDistance);
+        SmartDashboard.putNumber("Limelight/Align/Distance Error (m)", distanceError);
+        SmartDashboard.putNumber("Limelight/Align/Angle Error (deg)", Math.toDegrees(angleError));
+        SmartDashboard.putNumber("Limelight/Align/Current Angle (deg)", Math.toDegrees(currentAngle));
 
         // Calculate chassis speeds using proportional control
-        // Distance error: negative means too far, so we want positive (forward) speed
-        double forwardSpeed = -kPDistance * distanceError;  // Negative sign: closer = negative error
+        // Strategy: Move forward/backward proportionally while also rotating
         
-        // Angle error: positive means we're rotated counter-clockwise from desired
+        // Rotation: Proportional to angle error
         double rotationSpeed = -kPAngle * angleError;
+        
+        // Forward motion: Positive distance error means too far (move forward), negative means too close (move backward)
+        // forwardSpeed = kPDistance * distanceError will give us this behavior:
+        //   - If distanceError > 0 (too far): forwardSpeed > 0 (move forward)
+        //   - If distanceError < 0 (too close): forwardSpeed < 0 (move backward)
+        double forwardSpeed = kPDistance * distanceError;
+        
+        // Scale down forward/backward motion if angle error is large (angle > 45 degrees)
+        // This prevents moving significantly when pointed wrong direction
+        if (Math.abs(angleError) > 0.785) {  // ~45 degrees
+            forwardSpeed *= 0.3;  // 30% of normal speed when angle is way off
+        }
 
-        // Clamp speeds to reasonable values
+        // Clamp speeds to reasonable values (-1.0 to 1.0)
         forwardSpeed = clamp(forwardSpeed, -1.0, 1.0);
         rotationSpeed = clamp(rotationSpeed, -1.0, 1.0);
 
         lastCalculatedSpeeds = new ChassisSpeeds(forwardSpeed, 0, rotationSpeed);
 
-        SmartDashboard.putNumber("Alignment/Forward Speed", forwardSpeed);
-        SmartDashboard.putNumber("Alignment/Rotation Speed", rotationSpeed);
-        SmartDashboard.putBoolean("Alignment/Is Aligned", isAligned());
+        SmartDashboard.putNumber("Limelight/Align/Forward Speed", forwardSpeed);
+        SmartDashboard.putNumber("Limelight/Align/Rotation Speed", rotationSpeed);
+        SmartDashboard.putBoolean("Limelight/Align/Is Aligned", isAligned());
     }
 
     /**
@@ -170,11 +192,7 @@ public class AlignToAprilTagCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        if (interrupted) {
-            System.out.println("AlignToAprilTag: Command interrupted");
-        } else {
-            System.out.println("AlignToAprilTag: Alignment complete");
-        }
+        // Command ended - rely on SmartDashboard for diagnostics
     }
 
     @Override
