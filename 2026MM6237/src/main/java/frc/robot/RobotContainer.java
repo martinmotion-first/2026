@@ -27,6 +27,9 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
+import frc.robot.commands.auto.*;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -73,6 +76,9 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+      // Register PathPlanner NamedCommands for autonomous routines
+      registerNamedCommands();
+      
       // Configure the trigger bindings
       configureBindings();
       autoChooser = AutoBuilder.buildAutoChooser("DefaultPath");
@@ -80,6 +86,25 @@ public class RobotContainer {
       
       // Initialize subsystem tuning displays
       SubsystemTuning.initializeAllDashboards();
+    }
+
+    /**
+     * Register all autonomous commands with PathPlanner's NamedCommands system.
+     * These commands can be used in PathPlanner auto files via their registered names.
+     */
+    private void registerNamedCommands() {
+      // Intake commands
+      NamedCommands.registerCommand("PrepareForIntake", new PrepareForIntake(intake));
+      NamedCommands.registerCommand("RunIntake", new RunIntake(intake));
+      NamedCommands.registerCommand("StopIntake", new StopIntake(intake));
+      
+      // Shooter commands
+      NamedCommands.registerCommand("PrepareToFire", new PrepareToFire(shooter, limelight));
+      NamedCommands.registerCommand("Fire", new Fire(feeder, shooter, limelight));
+      
+      // Climb commands
+      NamedCommands.registerCommand("PrepareToClimb", new PrepareToClimb(hanger));
+      NamedCommands.registerCommand("Climb", new Climb(hanger));
     }
 
 
