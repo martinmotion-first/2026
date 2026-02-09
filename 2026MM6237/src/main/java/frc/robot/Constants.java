@@ -63,6 +63,19 @@ public final class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
         public static final double kVoltageAtMaxSpeed = 12.0;
+
+        // ======================== AUTONOMOUS CONSTANTS ========================
+        // Fire command duration (seconds)
+        public static final double kAutoFireDurationSeconds = 0.5;
+
+        // Default feeder output when distance cannot be determined from Limelight
+        public static final double kAutoDefaultFeederPercentOutput = 0.8;
+
+        // Distance-based feeder speed calculation parameters
+        public static final double kAutoMinFeederDistanceMeters = 1.0;
+        public static final double kAutoMaxFeederDistanceMeters = 8.0;
+        public static final double kAutoMinFeederPercentOutput = 0.6;
+        public static final double kAutoMaxFeederPercentOutput = 1.0;
     }
 
     public static class Floor {
@@ -86,6 +99,14 @@ public final class Constants {
         public static final double kD = 0;
         public static final double kHomingPercentOutput = -0.05;
         public static final double kHomingCurrentThreshold = 0.4;
+
+        // ======================== AUTONOMOUS CONSTANTS ========================
+        // Extension tolerance for hanger positioning in autonomous (inches)
+        public static final double kAutoExtensionToleranceInches = 1.0;
+
+        // Conversion factor from motor rotations to inches
+        // (approximate multiplier for hanger extension calculation)
+        public static final double kAutoRotationsToInchesMultiplier = 2.0;
     }
 
     public static class Hood {
@@ -117,6 +138,10 @@ public final class Constants {
         public static final double kPivotKD = 0;
         public static final double kHomingPercentOutput = 0.1;
         public static final double kHomingCurrentThreshold = 6;
+
+        // ======================== AUTONOMOUS CONSTANTS ========================
+        // Position tolerance for intake arm motion in autonomous (degrees)
+        public static final double kAutoPositionToleranceDegrees = 5.0;
     }
 
     public static class Shooter {
@@ -129,6 +154,16 @@ public final class Constants {
         public static final double kKI = 2;
         public static final double kKD = 0;
         public static final double kPeakReverseVoltage = 0;
+
+        // ======================== AUTONOMOUS CONSTANTS ========================
+        // Default shooter RPM when distance cannot be determined from Limelight
+        public static final double kAutoDefaultShooterRPM = 5000;
+
+        // Distance-based shooter RPM calculation parameters
+        public static final double kAutoMinShootingDistanceMeters = 1.0;
+        public static final double kAutoMaxShootingDistanceMeters = 8.0;
+        public static final double kAutoMinShooterRPM = 2000;
+        public static final double kAutoMaxShooterRPM = 5500;
     }
 
     public static class Limelight {
@@ -167,5 +202,12 @@ public final class Constants {
         public static final double kVisionStandardDeviationX = 0.1;
         public static final double kVisionStandardDeviationY = 0.1;
         public static final double kVisionStandardDeviationTheta = 0.1;
+    }
+
+    // ======================== AUTONOMOUS COMMAND CONSTANTS ========================
+
+    public static class Auto {
+        // Hub identification for Limelight-based distance calculations
+        public static final int kHubAprilTagID = 4;
     }
 }

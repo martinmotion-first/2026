@@ -2,6 +2,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.LimelightSubsystem6237;
@@ -19,9 +20,6 @@ public class Fire extends Command {
     private final LimelightSubsystem6237 limelight;
     
     private final Timer fireTimer = new Timer();
-    private static final double FIRE_DURATION_SECONDS = 0.5; // Duration to run feeder (tunable constant)
-    private static final int HUB_TAG_ID = 4; // AprilTag ID for the hub (adjust as needed)
-    private static final double DEFAULT_FEEDER_PERCENT_OUTPUT = 0.8; // Default feeder speed
 
     public Fire(Feeder feeder, Shooter shooter, LimelightSubsystem6237 limelight) {
         this.feeder = feeder;
@@ -36,10 +34,10 @@ public class Fire extends Command {
         fireTimer.start();
         
         // Determine feeder speed based on distance
-        double feederPercentOutput = DEFAULT_FEEDER_PERCENT_OUTPUT;
+        double feederPercentOutput = Constants.Feeder.kAutoDefaultFeederPercentOutput;
         
         if (limelight.hasValidTarget()) {
-            double distanceToHub = limelight.getDistanceToTag(HUB_TAG_ID);
+            double distanceToHub = limelight.getDistanceToTag(Constants.Auto.kHubAprilTagID);
             if (distanceToHub > 0) {
                 // Calculate feeder speed based on distance
                 feederPercentOutput = calculateFeederSpeed(distanceToHub);
@@ -58,7 +56,7 @@ public class Fire extends Command {
     @Override
     public boolean isFinished() {
         // Command finishes after firing duration has elapsed
-        return fireTimer.hasElapsed(FIRE_DURATION_SECONDS);
+        return fireTimer.hasElapsed(Constants.Feeder.kAutoFireDurationSeconds);
     }
 
     @Override
@@ -79,10 +77,10 @@ public class Fire extends Command {
      */
     private double calculateFeederSpeed(double distanceMeters) {
         // Placeholder linear relationship: adjust these values based on tuning
-        double minDistance = 1.0;      // Minimum distance in meters
-        double maxDistance = 8.0;      // Maximum distance in meters
-        double minPercentOutput = 0.6; // Feeder speed at minimum distance
-        double maxPercentOutput = 1.0; // Feeder speed at maximum distance
+        double minDistance = Constants.Feeder.kAutoMinFeederDistanceMeters;
+        double maxDistance = Constants.Feeder.kAutoMaxFeederDistanceMeters;
+        double minPercentOutput = Constants.Feeder.kAutoMinFeederPercentOutput;
+        double maxPercentOutput = Constants.Feeder.kAutoMaxFeederPercentOutput;
         
         if (distanceMeters <= minDistance) {
             return minPercentOutput;

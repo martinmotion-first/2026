@@ -1,6 +1,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Hanger.Position;
 
@@ -33,9 +34,9 @@ public class PrepareToClimb extends Command {
     public boolean isFinished() {
         // Check if the hanger extension is within tolerance of the target position
         double targetExtension = Position.EXTEND_HOPPER.motorAngle().in(edu.wpi.first.units.Units.Rotations) 
-            * 2.0; // Approximate conversion to inches (adjust based on actual mechanism)
+            * Constants.Hanger.kAutoRotationsToInchesMultiplier;
         double currentExtension = hanger.getCurrentExtensionInches();
-        return Math.abs(currentExtension - targetExtension) < 1.0; // 1 inch tolerance
+        return Math.abs(currentExtension - targetExtension) < Constants.Hanger.kAutoExtensionToleranceInches;
     }
 
     @Override

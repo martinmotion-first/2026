@@ -1,6 +1,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.LimelightSubsystem6237;
 
@@ -14,8 +15,6 @@ import frc.robot.subsystems.LimelightSubsystem6237;
 public class PrepareToFire extends Command {
     private final Shooter shooter;
     private final LimelightSubsystem6237 limelight;
-    private static final int HUB_TAG_ID = 4; // AprilTag ID for the hub (adjust as needed)
-    private static final double DEFAULT_SHOOTER_RPM = 5000; // Default RPM if distance cannot be determined
 
     public PrepareToFire(Shooter shooter, LimelightSubsystem6237 limelight) {
         this.shooter = shooter;
@@ -26,10 +25,10 @@ public class PrepareToFire extends Command {
     @Override
     public void initialize() {
         // Determine shooter RPM based on distance
-        double shooterRPM = DEFAULT_SHOOTER_RPM;
+        double shooterRPM = Constants.Shooter.kAutoDefaultShooterRPM;
         
         if (limelight.hasValidTarget()) {
-            double distanceToHub = limelight.getDistanceToTag(HUB_TAG_ID);
+            double distanceToHub = limelight.getDistanceToTag(Constants.Auto.kHubAprilTagID);
             if (distanceToHub > 0) {
                 // Calculate shooter RPM based on distance
                 // This is a placeholder formula - tune based on your robot's ballistics
@@ -68,10 +67,10 @@ public class PrepareToFire extends Command {
     private double calculateShooterRPM(double distanceMeters) {
         // Placeholder linear relationship: adjust these values based on tuning
         // Example: closer = lower RPM, farther = higher RPM
-        double minDistance = 1.0; // Minimum distance in meters
-        double maxDistance = 8.0; // Maximum distance in meters
-        double minRPM = 2000;     // RPM at minimum distance
-        double maxRPM = 5500;     // RPM at maximum distance
+        double minDistance = Constants.Shooter.kAutoMinShootingDistanceMeters;
+        double maxDistance = Constants.Shooter.kAutoMaxShootingDistanceMeters;
+        double minRPM = Constants.Shooter.kAutoMinShooterRPM;
+        double maxRPM = Constants.Shooter.kAutoMaxShooterRPM;
         
         if (distanceMeters <= minDistance) {
             return minRPM;

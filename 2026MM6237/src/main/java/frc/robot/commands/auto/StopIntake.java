@@ -3,6 +3,7 @@ package frc.robot.commands.auto;
 import static edu.wpi.first.units.Units.Degrees;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Intake.Position;
 import frc.robot.subsystems.Intake.Speed;
@@ -38,7 +39,7 @@ public class StopIntake extends Command {
         // Check if the pivot angle is within tolerance of the stowed position
         double targetAngle = Position.STOWED.angle().in(Degrees);
         double currentAngle = intake.getPivotAngleDegrees();
-        return Math.abs(currentAngle - targetAngle) < 5.0; // 5 degree tolerance
+        return Math.abs(currentAngle - targetAngle) < Constants.Intake.kAutoPositionToleranceDegrees;
     }
 
     @Override
