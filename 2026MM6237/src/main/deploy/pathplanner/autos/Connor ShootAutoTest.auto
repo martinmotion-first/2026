@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2ChallangeD2"
+            "pathName": "MoveALittle"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "1ChallangeD2"
+            "name": "PrepareToFire"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire"
           }
         }
       ]

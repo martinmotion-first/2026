@@ -3,57 +3,89 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7,
-        "y": 6.0
+        "x": 6.583,
+        "y": 7.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.7278054567022547,
-        "y": 4.772004744958482
+        "x": 6.583,
+        "y": 8.5
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.45,
-        "y": 6.0
+        "x": 6.583,
+        "y": 6.1
       },
       "prevControl": {
-        "x": 2.4707947805456705,
-        "y": 4.8258007117437725
+        "x": 6.583,
+        "y": 5.1
       },
       "nextControl": {
-        "x": 2.4292597272316634,
-        "y": 7.171121448929728
+        "x": 6.583,
+        "y": 7.1
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7,
-        "y": 6.0
+        "x": 6.583,
+        "y": 4.7
       },
       "prevControl": {
-        "x": 0.7062870699881384,
-        "y": 7.139027283511269
+        "x": 6.583,
+        "y": 6.098878786097503
       },
       "nextControl": {
-        "x": 0.6937129300118614,
-        "y": 4.860972716488731
+        "x": 6.583,
+        "y": 3.3011212139024977
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.6632502965599059,
-        "y": 7.25
+        "x": 6.583,
+        "y": 3.3
       },
       "prevControl": {
-        "x": 0.6740094899169637,
-        "y": 8.010521945432977
+        "x": 6.583,
+        "y": 3.55
+      },
+      "nextControl": {
+        "x": 6.583,
+        "y": 3.05
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.583,
+        "y": 1.9
+      },
+      "prevControl": {
+        "x": 6.583,
+        "y": 2.186565655294808
+      },
+      "nextControl": {
+        "x": 6.583,
+        "y": 1.6134343447051918
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.583,
+        "y": 0.5
+      },
+      "prevControl": {
+        "x": 6.583,
+        "y": 0.9591572596348639
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,18 +94,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 1.6,
-        "y": 6.0
-      },
-      "rotationOffset": 1.0,
-      "minWaypointRelativePos": 0.006314127861079746,
-      "maxWaypointRelativePos": 2.0,
-      "name": "Point Towards Zone"
-    }
-  ],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
@@ -88,7 +109,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Projects D2",
+  "folder": "Help",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

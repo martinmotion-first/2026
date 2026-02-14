@@ -3,77 +3,93 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6632502965599059,
-        "y": 7.25
+        "x": 4.15,
+        "y": 7.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4707947805456705,
-        "y": 7.19282325029656
+        "x": 4.15,
+        "y": 6.5
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "24"
     },
     {
       "anchor": {
-        "x": 2.45,
-        "y": 6.0
+        "x": 4.15,
+        "y": 6.1
       },
       "prevControl": {
-        "x": 2.2001633142169754,
-        "y": 5.9909650436108315
+        "x": 4.15,
+        "y": 7.1
       },
       "nextControl": {
-        "x": 2.7074970344009497,
-        "y": 6.009311981020167
+        "x": 4.15,
+        "y": 5.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "23"
     },
     {
       "anchor": {
-        "x": 4.6,
-        "y": 7.25
+        "x": 4.15,
+        "y": 4.7
       },
       "prevControl": {
-        "x": 2.5138315539739033,
-        "y": 7.182064056939502
+        "x": 4.15,
+        "y": 4.95
       },
       "nextControl": {
-        "x": 4.849867545952361,
-        "y": 7.258136920777813
+        "x": 4.15,
+        "y": 4.45
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "22"
     },
     {
       "anchor": {
-        "x": 0.6632502965599059,
-        "y": 7.25
+        "x": 4.15,
+        "y": 3.3
       },
       "prevControl": {
-        "x": 2.4828226516472105,
-        "y": 7.25
+        "x": 4.15,
+        "y": 4.20859205171026
       },
       "nextControl": {
-        "x": 0.41325029655990586,
-        "y": 7.25
+        "x": 4.15,
+        "y": 2.3914079482897392
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "21"
     },
     {
       "anchor": {
-        "x": 0.7,
-        "y": 6.0
+        "x": 4.15,
+        "y": 1.9
       },
       "prevControl": {
-        "x": 0.6462040332147095,
-        "y": 6.731625148279953
+        "x": 4.15,
+        "y": 2.5284350297802547
+      },
+      "nextControl": {
+        "x": 4.15,
+        "y": 1.2715649702197451
+      },
+      "isLocked": false,
+      "linkedName": "20"
+    },
+    {
+      "anchor": {
+        "x": 4.15,
+        "y": 0.5
+      },
+      "prevControl": {
+        "x": 4.15,
+        "y": 0.7760750305875382
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "19"
     }
   ],
   "rotationTargets": [],
@@ -93,7 +109,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Projects D2",
+  "folder": "Help",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

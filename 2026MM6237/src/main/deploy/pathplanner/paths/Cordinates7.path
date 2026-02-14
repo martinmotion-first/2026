@@ -3,77 +3,93 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6632502965599059,
-        "y": 7.25
+        "x": 7.8,
+        "y": 7.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4707947805456705,
-        "y": 7.19282325029656
+        "x": 7.8,
+        "y": 8.5
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "42"
     },
     {
       "anchor": {
-        "x": 2.45,
-        "y": 6.0
+        "x": 7.8,
+        "y": 6.1
       },
       "prevControl": {
-        "x": 2.2001633142169754,
-        "y": 5.9909650436108315
+        "x": 7.8,
+        "y": 5.1
       },
       "nextControl": {
-        "x": 2.7074970344009497,
-        "y": 6.009311981020167
+        "x": 7.8,
+        "y": 7.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "41"
     },
     {
       "anchor": {
-        "x": 4.6,
-        "y": 7.25
+        "x": 7.8,
+        "y": 4.7
       },
       "prevControl": {
-        "x": 2.5138315539739033,
-        "y": 7.182064056939502
+        "x": 7.8,
+        "y": 3.4321739969548783
       },
       "nextControl": {
-        "x": 4.849867545952361,
-        "y": 7.258136920777813
+        "x": 7.8,
+        "y": 5.967826003045122
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "40"
     },
     {
       "anchor": {
-        "x": 0.6632502965599059,
-        "y": 7.25
+        "x": 7.8,
+        "y": 3.3
       },
       "prevControl": {
-        "x": 2.4828226516472105,
-        "y": 7.25
+        "x": 7.8,
+        "y": 3.0500000000000003
       },
       "nextControl": {
-        "x": 0.41325029655990586,
-        "y": 7.25
+        "x": 7.8,
+        "y": 3.5499999999999994
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "39"
     },
     {
       "anchor": {
-        "x": 0.7,
-        "y": 6.0
+        "x": 7.8,
+        "y": 1.9
       },
       "prevControl": {
-        "x": 0.6462040332147095,
-        "y": 6.731625148279953
+        "x": 7.8,
+        "y": 1.1714868756645087
+      },
+      "nextControl": {
+        "x": 7.8,
+        "y": 2.628513124335491
+      },
+      "isLocked": false,
+      "linkedName": "38"
+    },
+    {
+      "anchor": {
+        "x": 7.8,
+        "y": 0.5
+      },
+      "prevControl": {
+        "x": 7.8,
+        "y": -0.5934429693188117
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "37"
     }
   ],
   "rotationTargets": [],
@@ -93,7 +109,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Projects D2",
+  "folder": "Help",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

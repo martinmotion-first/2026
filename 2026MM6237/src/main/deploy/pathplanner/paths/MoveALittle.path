@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5489487179487194,
-        "y": 6.0
+        "x": 2.0,
+        "y": 5.465269230769231
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5489487179487167,
-        "y": 6.0
+        "x": 2.0375409691599278,
+        "y": 5.167112632349768
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.5023589743589756,
-        "y": 6.0
+        "x": 2.0,
+        "y": 4.128025641025641
       },
       "prevControl": {
-        "x": -0.4976410256410242,
-        "y": 6.0
+        "x": 1.9828180293441824,
+        "y": 3.878616780147799
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Vision Auto",
+  "folder": "Connor",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

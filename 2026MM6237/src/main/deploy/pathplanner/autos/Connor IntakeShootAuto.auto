@@ -13,7 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AutoP1"
+            "pathName": "IntakeShoot1"
           }
         },
         {
@@ -23,27 +23,21 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "IntakeShoot2"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "PrepareToFire"
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "AutoP2"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Fire"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AutoP3"
           }
         }
       ]

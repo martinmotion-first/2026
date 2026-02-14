@@ -13,7 +13,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AutoP1"
+            "pathName": "A1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot auto"
           }
         },
         {
@@ -29,21 +35,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "AutoP2"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Fire"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AutoP3"
           }
         }
       ]
