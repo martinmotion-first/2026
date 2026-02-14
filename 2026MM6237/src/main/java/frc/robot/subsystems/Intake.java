@@ -82,6 +82,11 @@ public class Intake extends SubsystemBase {
         rollerMotor = new TalonFX(Ports.kIntakeRollers, Ports.kRoboRioCANBus);
         configurePivotMotor();
         configureRollerMotor();
+        
+        // SAFETY: Ensure motors start in neutral state with zero voltage
+        // This prevents any unintended motion on enable before calibration
+        neutralizeMotors();
+        
         SmartDashboard.putData(this);
     }
 
@@ -134,6 +139,17 @@ public class Intake extends SubsystemBase {
                     .withSupplyCurrentLimitEnable(true)
             );
         rollerMotor.getConfigurator().apply(config);
+    }
+
+    /**
+     * Ensures both motors start with zero voltage output.
+     * Called during initialization to prevent unintended motion on enable.
+     */
+    private void neutralizeMotors() {
+        // Set pivot motor to zero voltage (no position command)
+        pivotMotor.setControl(pivotVoltageRequest.withOutput(Volts.of(0)));
+        // Set roller motor to zero voltage
+        rollerMotor.setControl(rollerVoltageRequest.withOutput(Volts.of(0)));
     }
 
     private boolean isPositionWithinTolerance() {

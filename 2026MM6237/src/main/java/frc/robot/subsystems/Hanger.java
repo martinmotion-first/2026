@@ -92,7 +92,19 @@ public class Hanger extends SubsystemBase {
             );
 
         motor.getConfigurator().apply(config);
+        
+        // SAFETY: Ensure motor starts with zero voltage output
+        neutralizeMotor();
+        
         SmartDashboard.putData(this);
+    }
+
+    /**
+     * Ensures the hanger motor starts with zero voltage output.
+     * Called during initialization to prevent unintended motor motion on enable.
+     */
+    private void neutralizeMotor() {
+        motor.setControl(voltageRequest.withOutput(Volts.of(0)));
     }
 
     public void set(Position position) {

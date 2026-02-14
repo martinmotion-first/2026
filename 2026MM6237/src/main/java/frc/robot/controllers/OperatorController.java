@@ -37,10 +37,6 @@ public class OperatorController {
     
     // Control percentages for safe voltage testing
     private static final double MOTOR_SPEED_PERCENT = 0.3;  // 30% voltage for testing
-    private static final double SERVO_SPEED_INCREMENT = 0.05; // Hood servo position increment per period
-    
-    // Track hood position for analog control
-    private static double currentHoodPosition = 0.5;  // Start at middle position
     
     /**
      * Maps Xbox controller inputs to subsystem commands.
@@ -122,20 +118,17 @@ public class OperatorController {
             .onTrue(intake.homingCommand().withName("Intake Homing"));
         
         // ======================== HOOD CONTROLS ========================
-        // Left Stick Y-Axis: Hood position (0.0 min to 1.0 max)
-        // This uses continuous analog control for smooth servo adjustment
-        hood.setDefaultCommand(
-            hood.run(() -> {
-                double stickInput = operatorController.getLeftY();
-                if (Math.abs(stickInput) > 0.1) {  // Deadband to prevent small stick drifts
-                    // Adjust position based on stick position
-                    currentHoodPosition += (stickInput * SERVO_SPEED_INCREMENT);
-                    // Clamp to valid range [0.0, 1.0]
-                    currentHoodPosition = Math.max(0.0, Math.min(1.0, currentHoodPosition));
-                    hood.setPosition(currentHoodPosition);
-                }
-            }).withName("Hood Analog Control")
-        );
+        // NOTE: Hood does NOT have a default command to prevent unwanted servo movement on robot enable.
+        // When controller sticks are not centered, having a default command would cause the hood
+        // to move immediately upon enable, potentially causing mechanical damage.
+        // 
+        // For future implementation: Add explicit button/trigger-based controls instead:
+        // Example:
+        // operatorController.leftStick()
+        //     .whileTrue(hood.run(() -> hood.setPosition(newPosition)));
+        //
+        // IMPORTANT: Never use .setDefaultCommand() on subsystems that directly command motors!
+        // Default commands run immediately on enable without any operator input validation.
         
         // ======================== HANGER CONTROLS ========================
         // DPad Up: Hanger extend (positive voltage)

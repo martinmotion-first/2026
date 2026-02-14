@@ -30,8 +30,8 @@ public class Hood extends SubsystemBase {
     private final Servo leftServo;
     private final Servo rightServo;
 
-    private double currentPosition = Constants.Hood.kInitialPosition;
-    private double targetPosition = Constants.Hood.kInitialPosition;
+    private double currentPosition = 0.0;  // Start at unknown position
+    private double targetPosition = 0.0;   // No target until explicitly commanded
     private Time lastUpdateTime = Seconds.of(0);
 
     public Hood() {
@@ -39,7 +39,11 @@ public class Hood extends SubsystemBase {
         rightServo = new Servo(Ports.kHoodRightServo);
         leftServo.setBoundsMicroseconds(Constants.Hood.kServoBoundMax, Constants.Hood.kServoBoundHigh, Constants.Hood.kServoBoundCenter, Constants.Hood.kServoBoundLow, Constants.Hood.kServoBoundMin);
         rightServo.setBoundsMicroseconds(Constants.Hood.kServoBoundMax, Constants.Hood.kServoBoundHigh, Constants.Hood.kServoBoundCenter, Constants.Hood.kServoBoundLow, Constants.Hood.kServoBoundMin);
-        setPosition(currentPosition);
+        
+        // SAFETY: Do NOT set servo position on initialization
+        // Servos will remain at neutral until explicitly commanded by operator
+        // This prevents unintended hood movement on robot enable
+        
         SmartDashboard.putData(this);
     }
 

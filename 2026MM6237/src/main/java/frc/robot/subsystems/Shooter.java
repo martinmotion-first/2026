@@ -48,6 +48,9 @@ public class Shooter extends SubsystemBase {
         configureMotor(middleMotor, InvertedValue.Clockwise_Positive);
         configureMotor(rightMotor, InvertedValue.Clockwise_Positive);
 
+        // SAFETY: Ensure motors start with zero voltage output
+        neutralizeMotors();
+        
         SmartDashboard.putData(this);
     }
 
@@ -78,6 +81,16 @@ public class Shooter extends SubsystemBase {
             );
         
         motor.getConfigurator().apply(config);
+    }
+
+    /**
+     * Ensures all shooter motors start with zero voltage output.
+     * Called during initialization to prevent unintended motor spin on enable.
+     */
+    private void neutralizeMotors() {
+        for (final TalonFX motor : motors) {
+            motor.setControl(voltageRequest.withOutput(Volts.of(0)));
+        }
     }
 
     public void setRPM(double rpm) {
